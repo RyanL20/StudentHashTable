@@ -65,10 +65,11 @@ void Hash::PrintTable() {
     number = NumberOfItemsInIndex(i);
     cout << "-----------------\n";
     cout << "index = " << i << endl;
-    cout << HashTable[i]->firstName << endl;
-    cout << HashTable[i]->lastName << endl;
-    cout << HashTable[i]->id << endl;
-    cout << HashTable[i]->gpa << endl;
+    cout << "First Name: " << HashTable[i]->firstName << endl;
+    cout << "Last Name: " << HashTable[i]->lastName << endl;
+    cout << "ID: " << HashTable[i]->id << endl;
+    cout << "GPA: " << HashTable[i]->gpa << endl;
+    //if(
     cout << "# of Items = " << number << endl;
     cout << "-----------------\n";
   }
@@ -93,6 +94,29 @@ void Hash::PrintItemsInIndex(int index) {
   }
 }
 
+void Hash::PrintStudentInfo() {
+  int number;
+  for(int i = 0; i < tableSize; i++) {
+    studentInfo* Ptr = HashTable[i];
+
+
+    if(Ptr->firstName != "empty") {
+      cout << "-----------------\n";
+      cout << "index = " << i << endl;
+      cout << endl;
+      while(Ptr != NULL) {
+	number = NumberOfItemsInIndex(i);
+	cout << Ptr->firstName << " ";
+	cout << Ptr->lastName << ", ";
+	cout << Ptr->id << ", ";
+	cout << Ptr->gpa << endl;
+	Ptr = Ptr->next;
+      }
+      cout << "-----------------\n";
+    }
+  }
+}
+
 void Hash::FindDrink(string firstName) {
   int index = Hash_index(firstName);
   bool foundName = false;
@@ -113,22 +137,71 @@ void Hash::FindDrink(string firstName) {
   }
 }
 
-void Hash::RemoveItem(string firstName) {
-  int index = Hash_index(firstName);
-}
-
 int Hash::Hash_index(string key) {
   int hash = 0;
   int index;
-  // index = key.length();
   
   for(int i = 0; i < key.length(); i++) {
     hash = (hash + (int)key[i]);
-    cout << "hash = " << hash << endl;
+   //    cout << "hash = " << hash << endl;
   }
   
   index = hash % tableSize;
   
   return index;
   
+}
+
+void Hash::RemoveItem(string firstName) {
+  int index = Hash_index(firstName);
+
+  studentInfo* delPtr;
+  studentInfo* Ptr1;
+  studentInfo* Ptr2;
+
+  //Case 0 - bucket is empty
+  if(HashTable[index]->firstName == "empty") {
+    cout << firstName << " was not found in the Hash Table Case 0\n";
+  }
+
+  //Case 1 - only 1 item contained in bucket and that item has matching name
+  else if(HashTable[index]->firstName == firstName && HashTable[index]->next == NULL) {
+    HashTable[index]->firstName = "empty";
+    HashTable[index]->lastName = "empty";
+    HashTable[index]->id = 0;
+    HashTable[index]->gpa = 0.0;
+
+    cout << firstName << " was removed from the Hash Table Case 1\n";
+  }
+  //Case 2 - match is located in the first item in the bucket but there are
+  //more items in the bucket
+  else if(HashTable[index]->firstName == firstName) {
+    delPtr = HashTable[index];
+    HashTable[index] = HashTable[index]->next;
+    delete delPtr;
+
+    cout << firstName << " was removed from the Hash Table Case 2\n";
+  }
+  //Case 3 - bucket contains items but first item is not a match
+  else {
+    Ptr1 = HashTable[index]->next;
+    Ptr2 = HashTable[index];
+    while(Ptr1 != NULL && Ptr1->firstName != firstName) {
+      Ptr2 = Ptr1;
+      Ptr1 = Ptr1->next;
+    }
+    //Case 3.1 - no match
+    if(Ptr1 == NULL) {
+      cout << firstName << " was not found in the Hash Table Case 3.1\n";
+    }
+    //Case 3.2 - match is found
+    else {
+      delPtr = Ptr1;
+      Ptr1 = Ptr1->next;
+      Ptr2->next = Ptr1;
+
+      delete delPtr;
+      cout << firstName << " was removed from the Hash Table Case 3.2\n";
+    }
+  }
 }
