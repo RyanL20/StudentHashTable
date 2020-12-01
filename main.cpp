@@ -1,33 +1,26 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
-#include <string>
 #include "Hash.h"
 
 using namespace std;
 
 int main() {
   //int index;
-  string input = "";
-  string firstName = "";
-  string lastName = "";
+  char* input = new char[80];  
   int id;
   float gpa;
   Hash hashObject;
-  //index = hashObject.Hash("Ryan");
+
   
-  hashObject.AddInfo("Dell", "Le", 2, 3.34);
-  hashObject.AddInfo("Dell", "Ho", 15, 5.4);
-  /*hashObject.AddInfo("Caitlyn", "Apple Cider", 4, 2.39);
-  hashObject.AddInfo("Ha", "Ginger", 9, 15.4);
-  hashObject.AddInfo("Tran", "TeaTree", 12, 5.41);
-  */
   bool exit = 0;
   while(exit == 0) {
     cout << "Executable Actions: STUDENTGEN, ADD, PRINT, DELETE, QUIT" << endl;
     cin >> input;
     //if(input == "STUDENTGEN") {}
-    if(input == "ADD") {
+    if(input[0] == 'A' && input[1] == 'D' && input[2] == 'D' && input[3] == '\0') {
+      char* firstName = new char[80];
+      char* lastName = new char[80];
       cout << "Student First Name: ";
       cin >> firstName;
       cout << "Student Last Name: ";
@@ -37,27 +30,25 @@ int main() {
       cout << "Student GPA: ";
       cin >> gpa;
       hashObject.AddInfo(firstName, lastName, id, gpa);
-	
     }
-    else if(input == "PRINT") {
-      //hashObject.PrintTable();
-      //hashObject.PrintItemsInIndex(5);
-      string whichPrint = "";
+    else if (input[0] == 'P' && input[1] == 'R' && input[2] == 'I' && input[3] == 'N' && input[4] == 'T' && input[5] == '\0') { 
+      char whichPrint[80] = "";
       cout << "PRINT 'TABLE' OR 'ALL'" << endl;
       cin >> whichPrint;
-      if(whichPrint == "TABLE") {
+      if(whichPrint[0] == 'T' && whichPrint[1] == 'A' && whichPrint[2] == 'B' && whichPrint[3] == 'L' && whichPrint[4] == 'E' && whichPrint[5] == '\0') {
 	  hashObject.PrintTable();
 	}
-      else if(whichPrint ==  "ALL") {
+      else if(whichPrint[0] ==  'A' && whichPrint[1] == 'L' && whichPrint[2] == 'L') {
 	  hashObject.PrintStudentInfo();
       }
     }
-    else if (input == "DELETE") {
-      cout << "Enter Student First Name: ";
-      cin >> firstName;
-      hashObject.RemoveItem(firstName);
+    else if (input[0] == 'D' && input[1] == 'E' && input[2] == 'L' && input[3] == 'E' && input[4] == 'T' && input[5] == 'E' && input[6] == '\0') {
+      cout << "Enter Student ID: ";
+      cin >> id;
+      hashObject.RemoveItem(id);
     }
-    else if (input == "QUIT") {
+    else if (input[0] == 'Q' && input[1] == 'U' && input[2] == 'I' && input[3] == 'T' && input[4] == '\0') {
+      cout << "EXITED PROGRAM" << endl;
       exit = 1;
     }
   }

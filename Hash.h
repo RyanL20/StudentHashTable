@@ -10,8 +10,8 @@ class Hash {
   static const int tableSize = 10;
 
 struct studentInfo {
-  string firstName;
-  string lastName;
+  char* firstName;
+  char* lastName;
   int id;
   float gpa;
   studentInfo* next;
@@ -21,14 +21,13 @@ struct studentInfo {
 
 public:
   Hash();
-  int Hash_index(string key);
-  void AddInfo(string firstName, string lastName, int id, float gpa);
+  int Hash_index(int key);
+  void AddInfo(char* firstName, char* lastName, int id, float gpa);
   int NumberOfItemsInIndex(int index);
   void PrintTable();
   void PrintItemsInIndex(int index);
   void PrintStudentInfo();
-  void FindDrink(string name);
-  void RemoveItem(string name);
+  void RemoveItem(int id);
 };
 
 #endif
