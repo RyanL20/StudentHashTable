@@ -7,8 +7,8 @@
 using namespace std;
 class Hash {
   private:
-  static const int tableSize = 10;
-
+  static const int tableSize = 100;
+  
 struct studentInfo {
   char* firstName;
   char* lastName;
@@ -20,14 +20,15 @@ struct studentInfo {
   studentInfo* HashTable[tableSize];
 
 public:
+  
   Hash();
   int Hash_index(int key);
   void AddInfo(char* firstName, char* lastName, int id, float gpa);
   int NumberOfItemsInIndex(int index);
   void PrintTable();
-  void PrintItemsInIndex(int index);
   void PrintStudentInfo();
   void RemoveItem(int id);
+
 };
 
 #endif

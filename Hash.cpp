@@ -5,6 +5,7 @@
 
 using namespace std;
 
+//initialize Hash Table with pointer point to NULL
 Hash::Hash() {
   for(int i = 0; i < tableSize; i++) {
     HashTable[i] = new studentInfo;
@@ -16,6 +17,7 @@ Hash::Hash() {
   }
 }
 
+//add student to hashtable and linked list if there is a collision
 void Hash::AddInfo(char* firstName, char* lastName, int id, float gpa) {
   int index = Hash_index(id);
   
@@ -24,7 +26,7 @@ void Hash::AddInfo(char* firstName, char* lastName, int id, float gpa) {
     HashTable[index]->lastName = lastName;
     HashTable[index]->id = id;
     HashTable[index]->gpa = gpa;
-    cout << "HashTable " << HashTable[index]->firstName << endl;
+    //cout << "Added " << HashTable[index]->firstName << endl;
   }
   else {
     studentInfo* Ptr = HashTable[index];
@@ -41,6 +43,7 @@ void Hash::AddInfo(char* firstName, char* lastName, int id, float gpa) {
   }
 }
 
+//number of students in each index
 int Hash::NumberOfItemsInIndex(int index) {
   int count = 0;
   
@@ -58,6 +61,7 @@ int Hash::NumberOfItemsInIndex(int index) {
   return count;
 }
 
+//prints the entire hash table, not include the chain list
 void Hash::PrintTable() {
   int number;
   for(int i = 0; i < tableSize; i++) {
@@ -81,30 +85,11 @@ void Hash::PrintTable() {
    }
 }
 
-void Hash::PrintItemsInIndex(int index) {
-  studentInfo* Ptr = HashTable[index];
-  if(Ptr->firstName == NULL) {
-    cout << "index = " << index << " is empty";
-  }
-  else {
-    cout << "index " << index << " contains the following item\n";
-    while(Ptr != NULL) {
-      cout << "-----------------\n";
-      cout << Ptr->firstName << endl;
-      cout << Ptr->lastName << endl;
-      cout << Ptr->id << endl;
-      cout << Ptr->gpa << endl; 
-      cout << "-----------------\n";
-      Ptr = Ptr->next;
-    }
-  }
-}
-
+//prints all the students
 void Hash::PrintStudentInfo() {
   int number;
   for(int i = 0; i < tableSize; i++) {
     studentInfo* Ptr = HashTable[i];
-
 
     if(Ptr->firstName != NULL) {
       cout << "-----------------\n";
@@ -123,24 +108,16 @@ void Hash::PrintStudentInfo() {
   }
 }
 
+//generate hash index key based on table size
 int Hash::Hash_index(int key) {
-  int hash = 0;
   int index;
-  
-  //  for(int i = 0; i < key; i++) {
-  //  hash = (hash + (int)key[i]);
-   //    cout << "hash = " << hash << endl;
-  // }
-  
-  // index = hash % tableSize;
-  
+ 
   index = key % tableSize;
-
-  
-  return index;
-  
+ 
+  return index;  
 }
 
+//remove student
 void Hash::RemoveItem(int id) {
   int index = Hash_index(id);
 
@@ -150,7 +127,7 @@ void Hash::RemoveItem(int id) {
 
   //Case 0 - bucket is empty
   if(HashTable[index]->id == 0) {
-    cout << id << " was not found in the Hash Table Case 0\n";
+    cout << id << " was not found in the Hash Table (Case 0)\n";
   }
 
   //Case 1 - only 1 item contained in bucket and that item has matching id
